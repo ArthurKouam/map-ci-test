@@ -4,11 +4,7 @@ class PinMarker extends StatelessWidget {
   final Color color;
   final IconData icon;
 
-  const PinMarker({
-    super.key,
-    required this.color,
-    required this.icon,
-  });
+  const PinMarker({super.key, required this.color, required this.icon});
 
   @override
   Widget build(BuildContext context) {

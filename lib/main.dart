@@ -13,10 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MapPage(
-        departure: demoDeparture,
-        arrival: demoArrival,
-      ),
+      home: MapPage(departure: demoDeparture, arrival: demoArrival),
       debugShowCheckedModeBanner: false,
     );
   }

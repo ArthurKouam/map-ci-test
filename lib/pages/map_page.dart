@@ -115,10 +115,8 @@ class MapPage extends StatelessWidget {
         icon: Icons.flag,
       ),
       ...mapPoints.map(
-        (mapPoint) => _buildMapPointMarker(
-          context: context,
-          mapPoint: mapPoint,
-        ),
+        (mapPoint) =>
+            _buildMapPointMarker(context: context, mapPoint: mapPoint),
       ),
     ];
   }
