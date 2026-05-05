@@ -6,7 +6,6 @@ import '../data/demo_map_data.dart';
 import '../models/map_point.dart';
 import '../models/route_stop.dart';
 import '../widgets/details_sheet.dart';
-import '../widgets/map_legend.dart';
 import '../widgets/pin_marker.dart';
 import '../widgets/route_summary_card.dart';
 
@@ -80,19 +79,6 @@ class MapPage extends StatelessWidget {
                 arrival: arrival,
                 distanceKm: _routeDistanceKm,
               ),
-            ),
-          ),
-          Positioned(
-            left: 16,
-            right: 16,
-            bottom: 24,
-            child: MapLegend(
-              riskCount: mapPoints
-                  .where((mapPoint) => mapPoint.type == MapPointType.risk)
-                  .length,
-              forecastCount: mapPoints
-                  .where((mapPoint) => mapPoint.type == MapPointType.forecast)
-                  .length,
             ),
           ),
         ],
