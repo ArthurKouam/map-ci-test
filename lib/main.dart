@@ -26,7 +26,7 @@ class MapPage extends StatelessWidget {
     return Scaffold(
       body: FlutterMap(
         options: MapOptions(
-          initialCenter: LatLng(48.8566, 2.3522), // Paris
+          initialCenter: LatLng(48.8566, 2.3522), 
           initialZoom: 13,
         ),
         children: [
