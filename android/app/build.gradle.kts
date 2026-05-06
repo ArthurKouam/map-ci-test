@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.jsdprojet.commando"
+    namespace = "com.tril.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.jsdprojet.commando"
+        applicationId = "com.tril.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

@@ -1,4 +1,4 @@
-package com.jsdprojet.commando
+package com.tril.app
 
 import io.flutter.embedding.android.FlutterActivity
 
