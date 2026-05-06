@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
-
-import 'data/demo_map_data.dart';
-import 'pages/map_page.dart';
+import 'package:flutter/services.dart';
+import 'theme/app_theme.dart';
+import 'screens/commencer_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.light,
+    systemNavigationBarColor: Colors.black,
+    systemNavigationBarIconBrightness: Brightness.light,
+  ));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runApp(const TrilApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class TrilApp extends StatelessWidget {
+  const TrilApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MapPage(departure: demoDeparture, arrival: demoArrival),
+    return MaterialApp(
+      title: 'TRIL — Logistique Sahélienne',
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.dark,
+      home: const CommencerScreen(),
     );
   }
 }
