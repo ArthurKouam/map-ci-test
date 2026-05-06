@@ -157,6 +157,7 @@ class LocalDataService {
 
   List<dynamic>? _users;
   final OsrmService _osrmService = OsrmService();
+  final Map<String, Future<List<LatLng>>> _routeCache = {};
 
   Future<void> init() async {
     _users ??= [
@@ -248,7 +249,9 @@ class LocalDataService {
   }
 
   Future<List<LatLng>> getRealRoute(LatLng start, LatLng end) async {
-    return await _osrmService.getRoute(start, end);
+    final key =
+        '${start.latitude},${start.longitude}:${end.latitude},${end.longitude}';
+    return _routeCache.putIfAbsent(key, () => _osrmService.getRoute(start, end));
   }
 
   /// Route OSRM suivant tous les checkpoints dans l'ordre
@@ -256,9 +259,14 @@ class LocalDataService {
     final coords = getTripRouteCoords();
     if (coords.length < 2) return coords;
 
-    List<LatLng> fullRoute = [];
+    final futures = <Future<List<LatLng>>>[];
     for (int i = 0; i < coords.length - 1; i++) {
-      final segment = await _osrmService.getRoute(coords[i], coords[i + 1]);
+      futures.add(getRealRoute(coords[i], coords[i + 1]));
+    }
+
+    final segments = await Future.wait(futures);
+    final fullRoute = <LatLng>[];
+    for (final segment in segments) {
       if (fullRoute.isNotEmpty && segment.isNotEmpty) {
         fullRoute.addAll(segment.skip(1));
       } else {

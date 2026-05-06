@@ -123,30 +123,14 @@ class _SuiviLivraisonScreenState extends State<SuiviLivraisonScreen>
     await _localData.init();
     final checkpoints = _localData.getCheckpoints();
     final zones = _localData.getRiskZones();
-
-    // Route OSRM sur tous les checkpoints
     final coords = _localData.getTripRouteCoords();
-    List<LatLng> polyline = [];
-    for (int i = 0; i < coords.length - 1; i++) {
-      final seg = await _localData.getRealRoute(coords[i], coords[i + 1]);
-      if (polyline.isNotEmpty && seg.isNotEmpty) {
-        polyline.addAll(seg.skip(1));
-      } else {
-        polyline.addAll(seg);
-      }
-    }
-
-    // Position initiale du camion = 1er checkpoint (départ)
     final startCp = checkpoints.first;
     final startPos = LatLng(startCp['lat'], startCp['lon']);
-
-    // Charger les matches potentiels (simulés après 4s)
-    Timer(const Duration(seconds: 4), _loadMatches);
 
     if (mounted) {
       setState(() {
         _checkpoints = checkpoints;
-        _routePolyline = polyline.isEmpty ? coords : polyline;
+        _routePolyline = coords;
         _riskZones = zones;
         _displayedTruckPos = startPos;
         _truckFrom = startPos;
@@ -154,6 +138,21 @@ class _SuiviLivraisonScreenState extends State<SuiviLivraisonScreen>
         _isLoading = false;
       });
     }
+
+    // Charger les matches potentiels (simulés après 4s)
+    Timer(const Duration(seconds: 4), _loadMatches);
+
+    // Raffine la route en arrière-plan sans bloquer le premier rendu.
+    unawaited(_loadDetailedRoute());
+  }
+
+  Future<void> _loadDetailedRoute() async {
+    final polyline = await _localData.getFullTripRoute();
+    if (!mounted || polyline.isEmpty) return;
+
+    setState(() {
+      _routePolyline = polyline;
+    });
   }
 
   Future<void> _loadMatches() async {
